@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap');
+
+:root {
+    --white: #fff;
+    --grey: #607274;
+    --anotherGrey: #646566;
+    --primary: #FAEED1;
+    --secondary: #DED0B6;
+    --tertiary: #B2A59B;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--tertiary);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--anotherGrey);
+}
+
+a {
+    color: var(--white);
+}
+
+.webgl {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.break {
+    height: 200vh;
+}
+
+.btn1 {
+    background-color: var(--primary);
+    color: var(--grey);
+    padding: .2rem .8rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+}
+
+main {
+    width: 100vw;
+    color: var(--primary);
+    z-index: 99;
+    position: absolute;
+    width: 100%;
+}
+
+.hero {
+    height: 90vh;
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 10vh;
+    gap: 10vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.hero>*:nth-child(1) {
+    align-self: flex-end;
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+.hero> :nth-child(2) {
+    align-self: flex-start;
+    font-size: 1.5rem;
+}
+
+.hero> :nth-child(3) {
+    font-size: 1.5rem;
+}
+
+.about-Section,
+.contact-Section {
+    -webkit-border-top-right-radius: 25px;
+    -webkit-border-bottom-right-radius: 25px;
+    -moz-border-radius-topright: 25px;
+    -moz-border-radius-bottomright: 25px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    background-color: var(--grey);
+    width: 40%;
+    padding: 30vh 0;
+}
+
+.section-content {
+    margin: 0 auto;
+    width: 75%;
+    line-height: 2;
+    letter-spacing: 0.2rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    padding: 10vh 0;
+    text-align: center;
+}
+
+.paraHeading {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 2vh;
+}
+
+.paraAnswer {
+    font-size: 1rem;
+    font-weight: 300;
+    margin-bottom: 10vh;
+    line-height: 1.7;
+}
+
+.projects-Section,
+.footer-Section {
+    -webkit-border-top-left-radius: 25px;
+    -webkit-border-bottom-left-radius: 25px;
+    -moz-border-radius-topleft: 25px;
+    -moz-border-radius-bottomleft: 25px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    background-color: var(--grey);
+    width: 40%;
+    padding: 30vh 0;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.project-card {
+    margin-bottom: 10vh;
+}
+
+.cardHeading {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 1vh;
+}
+
+.cardContent {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.7;
+}
+
+.contactLinks {
+    margin: 5vh auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5vh;
+}
+
+.cardContent>p {
+    margin-bottom: 5vh;
+}
