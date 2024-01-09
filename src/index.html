@@ -8,12 +8,15 @@
 </head>
 
 <body>
+    <div class="progressbar-container">
+        <label for="progressbar">Loading...</label>
+        <progress id="progressbar" max="100" value="0"></progress>
+    </div>
     <canvas class="webgl"></canvas>
     <video id="monitorScreenVideo" playsinline webkit-playsinline muted loop autoplay
         src="../static/monitorScreenVideo.webm" style="display: none;"></video>
     <video id="tvScreenVideo" playsinline webkit-playsinline muted loop autoplay src="../static/tvScreenVideo2.mp4"
         style="display: none;"></video>
-
     <main>
 
         <section class="hero">

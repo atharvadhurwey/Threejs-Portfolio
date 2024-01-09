@@ -5,6 +5,51 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 
+
+// left: 37, up: 38, right: 39, down: 40,
+// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+
+function preventDefault(e) {
+    e.preventDefault();
+}
+
+function preventDefaultForScrollKeys(e) {
+    if (keys[e.keyCode]) {
+        preventDefault(e);
+        return false;
+    }
+}
+
+// modern Chrome requires { passive: false } when adding event
+var supportsPassive = false;
+try {
+    window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
+        get: function () { supportsPassive = true; }
+    }));
+} catch (e) { }
+
+var wheelOpt = supportsPassive ? { passive: false } : false;
+var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+
+// call this to Disable
+function disableScroll() {
+    window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
+    window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+    window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
+    window.addEventListener('keydown', preventDefaultForScrollKeys, false);
+}
+
+// call this to Enable
+function enableScroll() {
+    window.removeEventListener('DOMMouseScroll', preventDefault, false);
+    window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
+    window.removeEventListener('touchmove', preventDefault, wheelOpt);
+    window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
+}
+
+disableScroll()
+
 /**
  * Base
  */
@@ -25,15 +70,32 @@ scene.background = new THREE.Color(0x646566)
 /**
  * Loaders
  */
+// Loading Manager
+const loadingManager = new THREE.LoadingManager();
+
+// Loading Bar
+const progressBar = document.getElementById('progressbar');
+
+loadingManager.onProgress = function (url, loaded, total) {
+    progressBar.value = (loaded / total) * 100;
+}
+
+const progressBarContainer = document.querySelector('.progressbar-container');
+
+loadingManager.onLoad = function () {
+    progressBarContainer.style.display = 'none';
+    enableScroll()
+}
+
 // Texture loader
-const textureLoader = new THREE.TextureLoader()
+const textureLoader = new THREE.TextureLoader(loadingManager)
 
 // Draco loader
 const dracoLoader = new DRACOLoader()
 dracoLoader.setDecoderPath('draco/')
 
 // GLTF loader
-const gltfLoader = new GLTFLoader()
+const gltfLoader = new GLTFLoader(loadingManager)
 gltfLoader.setDRACOLoader(dracoLoader)
 
 /**
@@ -185,7 +247,7 @@ gltfLoader.load(
         model.rotation.y = -(Math.PI / 4);
         const scale = 0.7;
         const range = 10;
-        model.scale.set(scale, scale, scale); 
+        model.scale.set(scale, scale, scale);
 
         gui.add(model.position, 'x').min(-range).max(range).step(0.01).name('x')
         gui.add(model.position, 'y').min(-range).max(range).step(0.01).name('y')
