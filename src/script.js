@@ -65,7 +65,7 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
-scene.background = new THREE.Color(0x646566)
+scene.background = new THREE.Color(0x323333)
 
 /**
  * Loaders
@@ -104,6 +104,18 @@ gltfLoader.setDRACOLoader(dracoLoader)
 const bakedTexture = textureLoader.load('myRoomBaked.jpg')
 bakedTexture.flipY = false
 bakedTexture.encoding = THREE.sRGBEncoding
+
+const katanaTexture = textureLoader.load('katanaBaked.jpg')
+katanaTexture.flipY = false
+katanaTexture.encoding = THREE.sRGBEncoding
+
+const keyboardTexture = textureLoader.load('keyboardBaked.jpg')
+keyboardTexture.flipY = false
+keyboardTexture.encoding = THREE.sRGBEncoding
+
+const macBookandAmongUsTexture = textureLoader.load('laptopBottomAndAmongUs.jpg')
+macBookandAmongUsTexture.flipY = false
+macBookandAmongUsTexture.encoding = THREE.sRGBEncoding
 
 const lufyTexture = textureLoader.load('luffyHat.jpg')
 lufyTexture.flipY = false
@@ -167,6 +179,9 @@ var tvScreenMaterial = new THREE.MeshBasicMaterial({
  */
 // Baked material
 const bakedMaterial = new THREE.MeshBasicMaterial({ map: bakedTexture })
+const katanaMaterial = new THREE.MeshBasicMaterial({ map: katanaTexture })
+const keyboardMaterial = new THREE.MeshBasicMaterial({ map: keyboardTexture })
+const macBookandAmongUsMaterial = new THREE.MeshBasicMaterial({ map: macBookandAmongUsTexture })
 const lufyMaterial = new THREE.MeshBasicMaterial({ map: lufyTexture })
 const chocoChipsMaterial = new THREE.MeshBasicMaterial({ map: chocoChipsTexture })
 const deathNoteMaterial = new THREE.MeshBasicMaterial({ map: deathNoteTexture })
@@ -209,6 +224,12 @@ gltfLoader.load(
         const routerLights = gltf.scene.children.find(child => child.name === 'routerLights')
         const windowshade = gltf.scene.children.find(child => child.name === 'windowshade')
         const amongUsAngleHat = gltf.scene.children.find(child => child.name === 'amongUsAngleHat')
+        const katanaBlade = gltf.scene.children.find(child => child.name === 'katanaBlade')
+        const KeyBoard = gltf.scene.children.find(child => child.name === 'KeyBoard')
+        const macBookBottom = gltf.scene.children.find(child => child.name === 'macBookBottom')
+        const redBody = gltf.scene.children.find(child => child.name === 'redBody')
+        const orangeBody = gltf.scene.children.find(child => child.name === 'orangeBody')
+        const brownBody = gltf.scene.children.find(child => child.name === 'brownBody')
         const luffyHat = gltf.scene.children.find(child => child.name === 'hat_luffy')
         const chocoChips = gltf.scene.children.find(child => child.name === 'chocoChips')
         const deathNoteCover = gltf.scene.children.find(child => child.name === 'deathNoteCover')
@@ -230,6 +251,12 @@ gltfLoader.load(
         cabinetFanB.material = cabinetLight
         windowshade.material = windowShade
         amongUsAngleHat.material = yellowLight
+        katanaBlade.material = katanaMaterial
+        KeyBoard.material = keyboardMaterial
+        macBookBottom.material = macBookandAmongUsMaterial
+        redBody.material = macBookandAmongUsMaterial
+        orangeBody.material = macBookandAmongUsMaterial
+        brownBody.material = macBookandAmongUsMaterial
         luffyHat.material = lufyMaterial
         chocoChips.material = chocoChipsMaterial
         deathNoteCover.material = deathNoteMaterial
@@ -368,7 +395,7 @@ let moveDistanceY = -1.5;
 let rotateAngleY = -(Math.PI / 4);
 let rotateAngleX = 0;
 let cameraZoom = 1;
-console.log(-(Math.PI / 4))
+// console.log(-(Math.PI / 4))
 
 document.body.onscroll = function () {
     const t = document.body.getBoundingClientRect().top;
@@ -384,10 +411,10 @@ document.body.onscroll = function () {
 
     if (model) {
 
-        console.log(moveDistanceX, moveDistanceY, rotateAngleY, cameraZoom)
+        // console.log(moveDistanceX, moveDistanceY, rotateAngleY, cameraZoom)
         // console.log(firstSectionBreakBool, firstSectionBool, scrollDirection)
         // console.log(secondSectionBreakBool, secondSectionBool, scrollDirection)
-        console.log(thirdSectionBreakBool, thirdSectionBool, scrollDirection)
+        // console.log(thirdSectionBreakBool, thirdSectionBool, scrollDirection)
 
         if (t == 0) {
             moveDistanceX = 0;
@@ -494,9 +521,6 @@ document.body.onscroll = function () {
             }
         }
     }
-
-
-
 }
 
 //Cursor
@@ -515,6 +539,9 @@ window.addEventListener('mousemove', (event) => {
 const clock = new THREE.Clock()
 let previousTime = 0
 
+camera.position.x = 0
+camera.position.y = 0
+
 const tick = () => {
     const elapsedTime = clock.getElapsedTime()
     const deltaTime = elapsedTime - previousTime
@@ -523,14 +550,16 @@ const tick = () => {
     // Update controls
     // controls.update()
 
-    // const parallaxX = 0
-    // const parallaxY = -0
-    const parallaxX = cursor.x * 0.5
-    const parallaxY = -cursor.y * 0.5
-    camera.position.x += (parallaxX - camera.position.x) * 5 * deltaTime
-    camera.position.y += (parallaxY - camera.position.y) * 5 * deltaTime
-
     if (model) {
+
+        // const parallaxX = 0
+        // const parallaxY = -0
+        const parallaxX = cursor.x * 0.5
+        // const parallaxY = cursor.y * 0.5
+        model.rotation.y += (parallaxX - camera.position.y) * 1 * deltaTime
+        // camera.position.x += (parallaxX - camera.position.x) * 5 * deltaTime
+        // camera.position.y += (parallaxY - camera.position.y) * 5 * deltaTime
+
         model.position.x += (moveDistanceX - model.position.x) * 5 * deltaTime
         model.position.y += (moveDistanceY - model.position.y) * 5 * deltaTime
         camera.zoom += (cameraZoom - camera.zoom) * 5 * deltaTime

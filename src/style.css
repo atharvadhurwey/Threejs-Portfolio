@@ -205,3 +205,10 @@ main {
 .cardContent>p {
     margin-bottom: 5vh;
 }
+
+@media only screen and (max-width: 425px) {
+    .about-Section, .contact-Section, .projects-Section, .footer-Section {
+        width: 100%;
+        border-radius: 0;
+    }
+}
