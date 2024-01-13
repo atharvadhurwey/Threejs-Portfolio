@@ -340,16 +340,19 @@ renderer.outputEncoding = THREE.sRGBEncoding
 // const controls = new OrbitControls(camera, renderer.domElement);
 // controls.enableDamping = true;
 
+
+// play and pause video using 'p' key
 monitorScreenVideo.play()
 tvScreenVideo.play()
 tvScreenVideo.playbackRate = 0.7;
 document.onkeydown = function (e) {
-    if (e.keyCode == 32) {
+    if (e.keyCode == 80) {
         monitorScreenVideo.paused ? monitorScreenVideo.play() : monitorScreenVideo.pause()
         tvScreenVideo.paused ? tvScreenVideo.play() : tvScreenVideo.pause()
     }
 };
 
+// check if element is visible in viewport
 function checkVisible(elm, threshold, mode) {
     threshold = threshold || 0;
     mode = mode || 'visible';
@@ -362,6 +365,7 @@ function checkVisible(elm, threshold, mode) {
     return mode === 'above' ? above : (mode === 'below' ? below : !above && !below);
 }
 
+// check scroll direction
 let lastScrollTop = 0;
 let scrollDirection = 'down';
 window.addEventListener("scroll", function () {
@@ -397,6 +401,7 @@ let rotateAngleX = 0;
 let cameraZoom = 1;
 // console.log(-(Math.PI / 4))
 
+// Scroll Animations as per sections
 document.body.onscroll = function () {
     const t = document.body.getBoundingClientRect().top;
     firstSectionBreakBool = checkVisible(firstSectionBreak, 0, 'below')
